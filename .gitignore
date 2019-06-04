@@ -1,0 +1,12 @@
+!.gitignore
+build
+.project
+.idea
+*.iml
+vendor
+.vendor-new
+user-service
+node_modules
+packrd
+main-packr.go
+grpc

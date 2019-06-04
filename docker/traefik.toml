@@ -1,0 +1,40 @@
+logLevel = "INFO"
+defaultEntryPoints = ["http"]
+
+[accessLog]
+filePath = "/dev/stdout"
+
+[api]
+entryPoint = "traefik"
+dashboard = true
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+  [entryPoints.http-internal]
+  address = ":81"
+  [entryPoints.traefik]
+  address = ":8080"
+
+[docker]
+watch = true
+exposedbydefault = false
+swarmmode = false
+
+[file]
+
+[backends]
+  [backends.backend1]
+    [backends.backend1.servers]
+      [backends.backend1.servers.server0]
+        url = "http://chat.site.local:10000"
+
+
+[frontends]
+  [frontends.frontend1]
+    entryPoints = ["http-internal"]
+    backend = "backend1"
+    [frontends.frontend1.routes]
+      [frontends.frontend1.routes.route0]
+        rule = "PathPrefix:/chat"
+
