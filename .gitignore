@@ -5,7 +5,7 @@ build
 *.iml
 vendor
 .vendor-new
-user-service
+user-service/user-service
 node_modules
 packrd
 main-packr.go

@@ -1,0 +1,7 @@
+server:
+  echo:
+    address: ":1234"
+    shutdown.timeout: "10s"
+    body.limit: "100G"
+  grpc:
+    address: ":5555"
