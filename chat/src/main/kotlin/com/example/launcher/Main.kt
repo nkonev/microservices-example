@@ -129,10 +129,7 @@ fun mavenMainClasses() : String {
 }
 
 fun isMavenTest(): Boolean {
-    val resource = MainResourceHolder::javaClass::class.java.getResource("/")
-    if (resource == null) {
-        return false
-    }
+    val resource = MainResourceHolder::javaClass::class.java.getResource("/") ?: return false
     return File(resource.file).name == "test-classes"
 }
 
