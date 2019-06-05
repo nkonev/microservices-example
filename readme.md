@@ -120,3 +120,7 @@ docker cp $(docker ps --format {{.Names}} | grep keycloak):/tmp/export.json ./do
 3. Put JWT to [jwt.io debugger](https://jwt.io/)
 4. Go to admin console, Realm Settings and click on Public key with `kid` as in header in `jwt.io`.
 5. Add `-----BEGIN PUBLIC KEY-----` and append `-----END PUBLIC KEY-----` to this copied public key and paste resulting key to `Public key` field in `jwt.io`
+
+# TODO
+1. [Spek]()
+2. HowerFly ?
