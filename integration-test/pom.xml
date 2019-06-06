@@ -18,8 +18,6 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <coroutines.version>1.2.1</coroutines.version>
         <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
-        <junit.jupiter.version>5.4.2</junit.jupiter.version>
-
     </properties>
 
     <repositories>
