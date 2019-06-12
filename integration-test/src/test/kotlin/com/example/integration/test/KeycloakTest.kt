@@ -60,15 +60,6 @@ class KeycloakTest {
         SLF4JBridgeHandler.removeHandlersForRootLogger()
         SLF4JBridgeHandler.install()
 
-        // https://sites.google.com/a/chromium.org/chromedriver/
-        WebDriverManager.chromedriver().version("73.0.3683.68").setup();
-
-        driver = ChromeDriver()
-
-        driver.manage()?.timeouts()?.implicitlyWait(30, TimeUnit.SECONDS)
-        driver.manage()?.window()?.maximize()
-
-
         println("find jar")
         println("start jar /home/nkonev/go_1_11/social-sender/chat/target/chat-app-0.0.0-jar-with-dependencies.jar")
 
@@ -78,7 +69,13 @@ class KeycloakTest {
 
     @BeforeMethod
     fun before() {
-        driver.manage().deleteAllCookies()
+        // https://sites.google.com/a/chromium.org/chromedriver/
+        WebDriverManager.chromedriver().version("73.0.3683.68").setup();
+
+        driver = ChromeDriver()
+
+        driver.manage()?.timeouts()?.implicitlyWait(30, TimeUnit.SECONDS)
+        driver.manage()?.window()?.maximize()
     }
 
     @Test(priority = 1)
@@ -127,7 +124,7 @@ class KeycloakTest {
 
 
 
-    @AfterSuite
+    @AfterMethod
     fun afterSuite() {
         driver.close()
     }
