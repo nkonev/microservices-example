@@ -122,5 +122,4 @@ docker cp $(docker ps --format {{.Names}} | grep keycloak):/tmp/export.json ./do
 5. Add `-----BEGIN PUBLIC KEY-----` and append `-----END PUBLIC KEY-----` to this copied public key and paste resulting key to `Public key` field in `jwt.io`
 
 # TODO
-1. [Spek]()
-2. HowerFly ?
+1. HowerFly ?
