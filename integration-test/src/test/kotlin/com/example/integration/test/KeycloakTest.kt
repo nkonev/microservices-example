@@ -154,7 +154,7 @@ class KeycloakTest {
     }
 
     @BeforeMethod
-    fun before() {
+    fun beforeMethod() {
         // https://sites.google.com/a/chromium.org/chromedriver/
         WebDriverManager.chromedriver().version("73.0.3683.68").setup();
 
@@ -211,12 +211,25 @@ class KeycloakTest {
 
 
     @AfterMethod
-    fun afterSuite() {
+    fun afterMethod() {
         driver.close()
 
-        javaProcess.destroy()
+    }
 
-        golangProcess.destroy()
+    @AfterSuite
+    fun afterSuite(){
+        try {
+            javaProcess.destroy()
+        } catch (e: Exception) {
+            LOGGER.error("Error during stop java process", e)
+        }
+
+        try {
+            golangProcess.destroy()
+        } catch (e: Exception) {
+            LOGGER.error("Error during stop go process", e)
+        }
+
     }
 
 }
