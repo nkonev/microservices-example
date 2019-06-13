@@ -87,8 +87,8 @@ class KeycloakTest {
 
         GlobalScope.launch {
             LOGGER.info("find go binary")
-            var bin = getExistsFile("../user-service/user-service", "./user-service/user-service")
-            var cfg = getExistsFile("../user-service/config-dev/config.yml", "./user-service/config-dev/config.yml")
+            val bin = getExistsFile("../user-service/user-service", "./user-service/user-service")
+            val cfg = getExistsFile("../user-service/config-dev/config.yml", "./user-service/config-dev/config.yml")
             LOGGER.info("start go binary")
             golangProcess = launch(bin.canonicalPath, "-config", cfg.canonicalPath)
         }
