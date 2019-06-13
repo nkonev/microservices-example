@@ -4,7 +4,7 @@
 ```bash
 rm -rf ./user-service/grpc
 mkdir ./user-service/grpc || true
-docker run -it --rm -v $PWD:/ws -w /ws znly/protoc --go_out=plugins=grpc:user-service/grpc --plugin=protoc-gen-grpc=/usr/bin/protoc-gen-go -I./chat/src/main/proto ./chat/src/main/proto/*.proto
+docker run -it --rm -v $PWD:/ws -w /ws znly/protoc:0.4.0 --go_out=plugins=grpc:user-service/grpc --plugin=protoc-gen-grpc=/usr/bin/protoc-gen-go -I./protobuf ./protobuf/*.proto
 ```
 
 ## Building
