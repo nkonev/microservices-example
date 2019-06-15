@@ -5,11 +5,18 @@ import (
 	"github.com/gobuffalo/packr/v2"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/labstack/gommon/log"
 	com_codenotfound_grpc_helloworld "github.com/nkonev/user-service/grpc"
 	grpc_server "github.com/nkonev/user-service/grpc-server"
 	"github.com/nkonev/user-service/handlers"
 	"github.com/nkonev/user-service/utils"
+	"github.com/openzipkin/zipkin-go/reporter"
+	log "github.com/sirupsen/logrus"
+
+	"github.com/openzipkin/zipkin-go"
+	zipkingrpc "github.com/openzipkin/zipkin-go/middleware/grpc"
+	reporternoop "github.com/openzipkin/zipkin-go/reporter"
+	reporterhttp "github.com/openzipkin/zipkin-go/reporter/http"
+
 	"github.com/spf13/viper"
 	"go.uber.org/dig"
 	"google.golang.org/grpc"
@@ -22,8 +29,6 @@ import (
 
 func configureEcho(fsh *handlers.FsHandler) *echo.Echo {
 	bodyLimit := viper.GetString("server.echo.body.limit")
-
-	log.SetOutput(os.Stdout)
 
 	static := packr.New("static", "./static")
 
@@ -55,7 +60,38 @@ func getStaticMiddleware(box *packr.Box) echo.MiddlewareFunc {
 	}
 }
 
+func newTracer() (*zipkin.Tracer, error) {
+	// The reporter sends traces to zipkin server
+	endpointURL := viper.GetString("zipkin.endpoint")
+	var reporter reporter.Reporter
+	if endpointURL == "" {
+		reporter = reporternoop.NewNoopReporter()
+	} else {
+		reporter = reporterhttp.NewReporter(endpointURL)
+	}
+
+	// Sampler tells you which traces are going to be sampled or not. In this case we will record 100% (1.00) of traces.
+	sampler, err := zipkin.NewCountingSampler(1)
+	if err != nil {
+		return nil, err
+	}
+
+	t, err := zipkin.NewTracer(
+		reporter,
+		zipkin.WithSampler(sampler),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return t, err
+}
+
 func main() {
+	log.SetOutput(os.Stdout)
+	log.SetReportCaller(true)
+	log.SetLevel(log.InfoLevel)
+
 	utils.InitViper("./config-dev/config.yml")
 	container := dig.New()
 	container.Provide(configureHandler)
@@ -71,6 +107,42 @@ func configureHandler() *handlers.FsHandler {
 	return handlers.NewFsHandler()
 }
 
+/*// Inspired by otgrpc.OpenTracingServerInterceptor(tracer)
+func LoggingUnaryServerInterceptor() grpc.UnaryServerInterceptor {
+	return func(
+		ctx context.Context,
+		req interface{},
+		info *grpc.UnaryServerInfo,
+		handler grpc.UnaryHandler,
+	) (resp interface{}, err error) {
+		resp, err = handler(ctx, req)
+
+		span := zipkin.SpanOrNoopFromContext(ctx)
+		traceId := span.Context().TraceID.String()
+		log.Infof("traceId=%s", traceId)
+		return resp, err
+	}
+}
+
+// Inspired by otgrpc.OpenTracingStreamServerInterceptor(tracer)
+func LoggingStreamServerInterceptor() grpc.StreamServerInterceptor {
+	return func(srv interface{}, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
+		// TODO implement
+		err := handler(srv, ss)
+		return err
+	}
+}
+
+const ContextKeyTraceId = "ContextKeyTraceId"
+
+// TODO to logging package
+func GetLoggerFromCtx(ctx context.Context, logger log.FieldLogger) log.FieldLogger {
+	span := zipkin.SpanOrNoopFromContext(ctx)
+	traceId := span.Context().TraceID.String()
+
+	return logger.WithField(ContextKeyTraceId, traceId)
+}*/
+
 // rely on viper import and it's configured by
 func runServers(e *echo.Echo) {
 	address := viper.GetString("server.echo.address")
@@ -84,7 +156,14 @@ func runServers(e *echo.Echo) {
 		}
 	}()
 
-	grpcServer := grpc.NewServer()
+	tracer, err := newTracer()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	grpcServer := grpc.NewServer(
+		grpc.StatsHandler(zipkingrpc.NewServerHandler(tracer)),
+	)
 	go func() {
 		grpcAddress := viper.GetString("server.grpc.address")
 		log.Infof("Starting grpc server on %v", grpcAddress)
