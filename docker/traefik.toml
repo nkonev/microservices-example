@@ -1,8 +1,5 @@
-logLevel = "DEBUG"
+logLevel = "INFO"
 defaultEntryPoints = ["http"]
-
-[accessLog]
-filePath = "/dev/stdout"
 
 [api]
 entryPoint = "traefik"
@@ -42,3 +39,18 @@ swarmmode = false
 [tracing]
   backend = "zipkin"
   spanNameLimit = 150
+
+[accessLog]
+# Custom headers works only in json format
+format = "json"
+  [accessLog.filters]
+
+  [accessLog.fields]
+  defaultMode = "keep"
+
+  [accessLog.fields.headers]
+    defaultMode = "drop"
+    # Fields map which is used to override headers defaultMode
+    [accessLog.fields.headers.names]
+      "User-Agent" = "keep"
+      "X-B3-Traceid" = "keep"

@@ -90,7 +90,7 @@ services:
         max-size: "50m"
         max-file: "1"
   traefik:
-    image: traefik:1.7.11-alpine
+    image: traefik:1.7.12-alpine
     hostname: traefik
     restart: unless-stopped
     command: -c /traefik.toml
