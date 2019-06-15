@@ -14,7 +14,6 @@ import (
 
 	"github.com/openzipkin/zipkin-go"
 	zipkingrpc "github.com/openzipkin/zipkin-go/middleware/grpc"
-	reporternoop "github.com/openzipkin/zipkin-go/reporter"
 	reporterhttp "github.com/openzipkin/zipkin-go/reporter/http"
 
 	"github.com/spf13/viper"
@@ -63,11 +62,11 @@ func getStaticMiddleware(box *packr.Box) echo.MiddlewareFunc {
 func newTracer() (*zipkin.Tracer, error) {
 	// The reporter sends traces to zipkin server
 	endpointURL := viper.GetString("zipkin.endpoint")
-	var reporter reporter.Reporter
+	var reporter0 reporter.Reporter
 	if endpointURL == "" {
-		reporter = reporternoop.NewNoopReporter()
+		reporter0 = reporter.NewNoopReporter()
 	} else {
-		reporter = reporterhttp.NewReporter(endpointURL)
+		reporter0 = reporterhttp.NewReporter(endpointURL)
 	}
 
 	// Sampler tells you which traces are going to be sampled or not. In this case we will record 100% (1.00) of traces.
@@ -77,7 +76,7 @@ func newTracer() (*zipkin.Tracer, error) {
 	}
 
 	t, err := zipkin.NewTracer(
-		reporter,
+		reporter0,
 		zipkin.WithSampler(sampler),
 	)
 	if err != nil {
