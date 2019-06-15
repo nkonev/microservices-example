@@ -107,42 +107,6 @@ func configureHandler() *handlers.FsHandler {
 	return handlers.NewFsHandler()
 }
 
-/*// Inspired by otgrpc.OpenTracingServerInterceptor(tracer)
-func LoggingUnaryServerInterceptor() grpc.UnaryServerInterceptor {
-	return func(
-		ctx context.Context,
-		req interface{},
-		info *grpc.UnaryServerInfo,
-		handler grpc.UnaryHandler,
-	) (resp interface{}, err error) {
-		resp, err = handler(ctx, req)
-
-		span := zipkin.SpanOrNoopFromContext(ctx)
-		traceId := span.Context().TraceID.String()
-		log.Infof("traceId=%s", traceId)
-		return resp, err
-	}
-}
-
-// Inspired by otgrpc.OpenTracingStreamServerInterceptor(tracer)
-func LoggingStreamServerInterceptor() grpc.StreamServerInterceptor {
-	return func(srv interface{}, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
-		// TODO implement
-		err := handler(srv, ss)
-		return err
-	}
-}
-
-const ContextKeyTraceId = "ContextKeyTraceId"
-
-// TODO to logging package
-func GetLoggerFromCtx(ctx context.Context, logger log.FieldLogger) log.FieldLogger {
-	span := zipkin.SpanOrNoopFromContext(ctx)
-	traceId := span.Context().TraceID.String()
-
-	return logger.WithField(ContextKeyTraceId, traceId)
-}*/
-
 // rely on viper import and it's configured by
 func runServers(e *echo.Echo) {
 	address := viper.GetString("server.echo.address")
@@ -179,8 +143,6 @@ func runServers(e *echo.Echo) {
 		s := grpc_server.Server{}
 
 		// create a gRPC server object
-
-		// attach the Ping service to the server
 		com_codenotfound_grpc_helloworld.RegisterHelloServiceServer(grpcServer, &s)
 		// start the server
 		if err := grpcServer.Serve(lis); err != nil {
