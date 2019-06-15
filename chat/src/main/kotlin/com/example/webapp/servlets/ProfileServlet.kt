@@ -35,7 +35,7 @@ class ProfileServlet : AbstractInjectableServlet() {
 
         val helloRequest = HelloRequest.newBuilder().setLastName("Konev").setFirstName("Nikita").build()
         val helloResponse = helloServiceStub.hello(helloRequest)
-
+        LOGGER.info("Returning profile")
         objectMapper.writeValue(writer, Dto(getUserName(req), getUserId(req), helloResponse.greeting))
     }
 
