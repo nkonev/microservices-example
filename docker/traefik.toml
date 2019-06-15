@@ -1,4 +1,4 @@
-logLevel = "INFO"
+logLevel = "DEBUG"
 defaultEntryPoints = ["http"]
 
 [accessLog]
@@ -38,3 +38,7 @@ swarmmode = false
       [frontends.frontend1.routes.route0]
         rule = "PathPrefix:/chat"
 
+
+[tracing]
+  backend = "zipkin"
+  spanNameLimit = 150
