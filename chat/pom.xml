@@ -25,12 +25,15 @@
         <cfg4j.version>4.4.1</cfg4j.version>
         <mongo.java.driver.version>3.10.2</mongo.java.driver.version>
         <testng.version>6.14.3</testng.version>
-        <okhttp.version>3.14.1</okhttp.version>
+        <okhttp.version>3.14.2</okhttp.version>
         <maven.surefire.plugin.version>2.22.0</maven.surefire.plugin.version>
         <os.maven.plugin.version>1.5.0.Final</os.maven.plugin.version>
         <protobuf.maven.plugin.version>0.5.1</protobuf.maven.plugin.version>
         <protoc.version>3.7.1</protoc.version>
         <grpc.java.version>1.21.0</grpc.java.version>
+        <brave.instrumentation.version>5.6.3</brave.instrumentation.version>
+        <zipkin.reporter.version>2.8.3</zipkin.reporter.version>
+        <okio.version>2.2.2</okio.version>
     </properties>
 
     <repositories>
@@ -126,7 +129,6 @@
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <version>${okhttp.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
@@ -143,6 +145,27 @@
             <artifactId>grpc-stub</artifactId>
             <version>${grpc.java.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-instrumentation-grpc</artifactId>
+            <version>${brave.instrumentation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-instrumentation-servlet</artifactId>
+            <version>${brave.instrumentation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-sender-okhttp3</artifactId>
+            <version>${zipkin.reporter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okio</groupId>
+            <artifactId>okio</artifactId>
+            <version>${okio.version}</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>chat-app</finalName>
