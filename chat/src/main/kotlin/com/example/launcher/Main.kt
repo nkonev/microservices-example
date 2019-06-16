@@ -32,7 +32,6 @@ fun main(args: Array<String>) {
     val config: TomcatConfig = provider.bind(CONFIG_PREFIX_TOMCAT, TomcatConfig::class.java)
 
     val logger: Logger = LoggerFactory.getLogger(::main.name)
-
     SLF4JBridgeHandler.removeHandlersForRootLogger()
     SLF4JBridgeHandler.install()
 

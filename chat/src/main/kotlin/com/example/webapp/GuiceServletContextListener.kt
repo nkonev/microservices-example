@@ -53,6 +53,7 @@ class GuiceServletContextListener : ServletContextListener {
 
         init {
             config = buildConfigurationProvider().bind(CONFIG_PREFIX_APP, SampleConfig::class.java)
+            LOGGER.info("Application: {}", config.name())
             mongoClient = MongoClients.create(config.mongodbUrl())
 
             val sender: Sender = OkHttpSender.create("http://127.0.0.1:9411/api/v2/spans")
@@ -107,6 +108,7 @@ class GuiceServletContextListener : ServletContextListener {
     }
 
     interface SampleConfig {
+        fun name(): String
         fun mongodbUrl(): String
         fun grpcHost(): String
         fun grpcPort(): Int
