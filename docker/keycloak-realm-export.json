@@ -1,6 +1,6 @@
 {
-  "id": "social-sender-realm",
-  "realm": "social-sender-realm",
+  "id": "microservices-example-realm",
+  "realm": "microservices-example-realm",
   "notBefore": 0,
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
@@ -44,7 +44,7 @@
         "description": "${role_offline-access}",
         "composite": false,
         "clientRole": false,
-        "containerId": "social-sender-realm",
+        "containerId": "microservices-example-realm",
         "attributes": {}
       },
       {
@@ -53,7 +53,7 @@
         "description": "${role_uma_authorization}",
         "composite": false,
         "clientRole": false,
-        "containerId": "social-sender-realm",
+        "containerId": "microservices-example-realm",
         "attributes": {}
       }
     ],
@@ -271,7 +271,7 @@
         }
       ],
       "security-admin-console": [],
-      "social-sender-app": [],
+      "microservices-example-app": [],
       "admin-cli": [],
       "broker": [
         {
@@ -384,13 +384,13 @@
       "id": "0fe23617-8f0a-4ae1-afd5-a27a1035ba75",
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
-      "baseUrl": "/auth/admin/social-sender-realm/console/index.html",
+      "baseUrl": "/auth/admin/microservices-example-realm/console/index.html",
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "66999000-1771-43ce-9797-7cd05223ba25",
       "redirectUris": [
-        "/auth/admin/social-sender-realm/console/*"
+        "/auth/admin/microservices-example-realm/console/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -478,7 +478,7 @@
     },
     {
       "id": "ac70e1b3-495a-40f4-b478-168b94862f4f",
-      "clientId": "social-sender-app",
+      "clientId": "microservices-example-app",
       "baseUrl": "http://site.local:8080/oauth/callback",
       "surrogateAuthRequired": false,
       "enabled": true,
@@ -611,7 +611,7 @@
       "id": "6b7b0480-d336-4905-81df-5f1348d05c01",
       "clientId": "account",
       "name": "${client_account}",
-      "baseUrl": "/auth/realms/social-sender-realm/account",
+      "baseUrl": "/auth/realms/microservices-example-realm/account",
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
@@ -621,7 +621,7 @@
         "view-profile"
       ],
       "redirectUris": [
-        "/auth/realms/social-sender-realm/account/*"
+        "/auth/realms/microservices-example-realm/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -670,7 +670,7 @@
           "protocolMapper": "oidc-audience-mapper",
           "consentRequired": false,
           "config": {
-            "included.client.audience": "social-sender-app",
+            "included.client.audience": "microservices-example-app",
             "id.token.claim": "false",
             "access.token.claim": "true"
           }
