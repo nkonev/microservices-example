@@ -12,6 +12,7 @@ import org.apache.catalina.startup.Tomcat
 import org.apache.catalina.webresources.DirResourceSet
 import org.apache.catalina.webresources.JarResourceSet
 import org.apache.catalina.webresources.StandardRoot
+import org.apache.tomcat.util.descriptor.web.ErrorPage
 import org.apache.tomcat.util.scan.StandardJarScanFilter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -25,6 +26,7 @@ interface TomcatConfig {
     fun staticdir(): String
     fun tmpdir(): String
     fun contextPath(): String
+    fun errorPage(): String
 }
 
 fun main(args: Array<String>) {
@@ -95,6 +97,11 @@ fun main(args: Array<String>) {
     rootContext.addServletMappingDecoded("/", defaultServletName)
     rootContext.addWelcomeFile("index.html")
 
+    if (config.errorPage()!=null && config.errorPage()!="") {
+        val ep: ErrorPage = ErrorPage()
+        ep.location = config.errorPage()
+        rootContext.addErrorPage(ep)
+    }
 
     // add self jar with static and annotated servlets
     val webResourceRoot = StandardRoot(rootContext)

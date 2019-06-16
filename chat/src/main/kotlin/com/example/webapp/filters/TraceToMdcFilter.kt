@@ -7,19 +7,20 @@ import javax.servlet.http.HttpFilter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+const val traceId = "traceId"
+const val traceHeader = "X-B3-Traceid"
+
 @WebFilter(servletNames=["*"])
 class TraceToMdcFilter : HttpFilter() {
     override fun doFilter(p0: HttpServletRequest?, p1: HttpServletResponse?, p2: FilterChain?) {
-        val trace = p0?.getHeader("X-B3-Traceid")
+        val trace = p0?.getHeader(traceHeader)
 
-        val traceId = "traceId"
         MDC.put(traceId, trace)
+        p1?.addHeader(traceId, trace)
 
-        try {
-            p2?.doFilter(p0, p1)
-        } finally {
-            MDC.remove(traceId)
-        }
+        p2?.doFilter(p0, p1)
+        MDC.remove(traceId)
+        // for remove after exception - see also in ErrorServlet
     }
 
 }
