@@ -78,17 +78,17 @@ class KeycloakTest {
         SLF4JBridgeHandler.removeHandlersForRootLogger()
         SLF4JBridgeHandler.install()
 
+        LOGGER.info("find jar")
+        val jar = getExistsFile("../chat/target/chat-app-0.0.0-jar-with-dependencies.jar", "./chat/target/chat-app-0.0.0-jar-with-dependencies.jar")
         GlobalScope.launch {
-            LOGGER.info("find jar")
-            val jar = getExistsFile("../chat/target/chat-app-0.0.0-jar-with-dependencies.jar", "./chat/target/chat-app-0.0.0-jar-with-dependencies.jar")
             LOGGER.info("start jar")
             javaProcess = launch("java", "-jar", jar.canonicalPath)
         }
 
+        LOGGER.info("find go binary")
+        val bin = getExistsFile("../user-service/user-service", "./user-service/user-service")
+        val cfg = getExistsFile("../user-service/config-dev/config.yml", "./user-service/config-dev/config.yml")
         GlobalScope.launch {
-            LOGGER.info("find go binary")
-            val bin = getExistsFile("../user-service/user-service", "./user-service/user-service")
-            val cfg = getExistsFile("../user-service/config-dev/config.yml", "./user-service/config-dev/config.yml")
             LOGGER.info("start go binary")
             golangProcess = launch(bin.canonicalPath, "-config", cfg.canonicalPath)
         }
