@@ -95,6 +95,7 @@ func main() {
 	container := dig.New()
 	container.Provide(configureHandler)
 	container.Provide(configureEcho)
+	container.Provide(newTracer)
 
 	if echoErr := container.Invoke(runServers); echoErr != nil {
 		log.Fatalf("Error during invoke echo: %v", echoErr)
@@ -107,7 +108,7 @@ func configureHandler() *handlers.FsHandler {
 }
 
 // rely on viper import and it's configured by
-func runServers(e *echo.Echo) {
+func runServers(e *echo.Echo, tracer *zipkin.Tracer) {
 	address := viper.GetString("server.echo.address")
 	shutdownTimeout := viper.GetDuration("server.echo.shutdown.timeout")
 
@@ -118,11 +119,6 @@ func runServers(e *echo.Echo) {
 			log.Infof("shutting down the echo server due error %v", err)
 		}
 	}()
-
-	tracer, err := newTracer()
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	grpcServer := grpc.NewServer(
 		grpc.StatsHandler(zipkingrpc.NewServerHandler(tracer)),
