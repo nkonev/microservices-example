@@ -35,7 +35,7 @@ services:
         max-size: "50m"
         max-file: "1"
   keycloak:
-    image: jboss/keycloak:6.0.1
+    image: nkonev/keycloak-java11:6.0.1
     restart: unless-stopped
     labels:
       - traefik.enable=true
