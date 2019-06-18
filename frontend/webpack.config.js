@@ -2,7 +2,7 @@
 
 const path = require('path');
 const srcDir = path.join(__dirname, 'src');
-const buildDir = path.join(__dirname, '../static/build');
+const buildDir = path.join(__dirname, './build');
 
 const DEVELOPMENT_ENV = 'development';
 const PRODUCTION_ENV = 'production';
@@ -121,7 +121,6 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             name: '[path][name].[ext]',
-                            // publicPath: '/static/build/',
                         }
                     }
                 ]
