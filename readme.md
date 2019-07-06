@@ -123,3 +123,11 @@ docker cp $(docker ps --format {{.Names}} | grep keycloak):/tmp/export.json ./do
 
 # TODO
 1. HowerFly ?
+
+# Java chat part
+
+## Fix annoying reflective access
+[Add](https://github.com/google/guice/issues/1133#issuecomment-434635902) to java process
+```
+--add-opens java.base/java.lang=ALL-UNNAMED
+```
