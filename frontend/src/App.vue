@@ -25,7 +25,7 @@
             <v-toolbar-items class="hidden-sm-and-down">
                 <v-btn flat>
                     <v-layout row fill-height>
-                        <v-flex align-end flexbox>
+                        <v-flex flexbox>
                             <v-avatar
                                     class="mr-2"
                                     color="grey lighten-4"
