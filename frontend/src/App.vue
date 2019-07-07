@@ -2,71 +2,45 @@
     <v-app>
         <v-navigation-drawer
                 absolute
-                temporary
                 v-model="drawer"
                 left
                 app
         >
             <v-list dense>
-                <v-list-tile @click="">
-                    <v-list-tile-action>
-                        <v-icon>home</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Home</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile @click="">
-                    <v-list-tile-action>
-                        <v-icon>contact_mail</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Contact</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
+                <template v-for="(item, index) in items">
+                    <v-list-tile :key="index" ripple @click="">
+                        <v-list-tile-content>
+                            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </template>
             </v-list>
         </v-navigation-drawer>
 
         <v-toolbar app dark class="primary">
-            <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-md-and-up"></v-toolbar-side-icon>
-            <v-toolbar-title v-text="'Admin App'"></v-toolbar-title>
+            <v-toolbar-side-icon @click.stop="drawer = !drawer" class="md-and-up"></v-toolbar-side-icon>
+            <v-btn color="success">New chat</v-btn>
+            <v-toolbar-title v-text="'Chat App'"></v-toolbar-title>
             <v-spacer/>
             <v-toolbar-items class="hidden-sm-and-down">
-                <v-btn color="success">Success</v-btn>
                 <v-btn flat>
-                    <v-icon left v-html="'visibility'"></v-icon>
-                    Users222
+                    <v-layout row fill-height>
+                        <v-flex align-end flexbox>
+                            <v-avatar
+                                    class="mr-3"
+                                    color="grey lighten-4"
+                                    title="nkonev"
+                            >
+                                <v-img src="https://vuetifyjs.com/apple-touch-icon-180x180.png" alt="avatar"/>
+                            </v-avatar>
+                            <span>John Doe</span>
+                        </v-flex>
+                    </v-layout>
                 </v-btn>
             </v-toolbar-items>
         </v-toolbar>
         <v-content>
-            <v-container fluid fill-height>
-                <v-layout justify-center align-center>
-                    <v-flex text-xs-center>
-                        <v-btn fab dark small color="primary">
-                            <v-icon dark>remove</v-icon>
-                        </v-btn>
-
-                        <v-btn fab dark small color="pink">
-                            <v-icon dark>favorite</v-icon>
-                        </v-btn>
-
-                        <v-btn fab dark color="indigo">
-                            <v-icon dark>add</v-icon>
-                        </v-btn>
-
-                        <v-btn fab dark color="teal">
-                            <v-icon dark>list</v-icon>
-                        </v-btn>
-
-                        <v-btn fab dark large color="cyan">
-                            <v-icon dark>edit</v-icon>
-                        </v-btn>
-
-                        <v-btn fab dark large color="purple">
-                            <v-icon dark>android</v-icon>
-                        </v-btn>
-                    </v-flex>
+            <v-flex>
 
                     <v-list two-line class="elevation-12">
                         <template v-for="(item, index) in items">
@@ -91,8 +65,7 @@
                             Default Slot
                         </v-input>
                     </v-list>
-                </v-layout>
-            </v-container>
+            </v-flex>
         </v-content>
         <v-footer app>(C) Cool app</v-footer>
     </v-app>
@@ -108,7 +81,7 @@
     export default {
         data(){
             return {
-                drawer: false,
+                drawer: true,
                 items: [
                     { action: '15 min', headline: 'Brunch this weekend?', title: 'Ali Connors', subtitle: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?" },
                     { action: '2 hr', headline: 'Summer BBQ', title: 'me, Scrott, Jennifer', subtitle: "Wish I could come, but I'm out of town this weekend." },
