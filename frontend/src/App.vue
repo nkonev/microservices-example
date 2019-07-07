@@ -27,7 +27,7 @@
                     <v-layout row fill-height>
                         <v-flex align-end flexbox>
                             <v-avatar
-                                    class="mr-3"
+                                    class="mr-2"
                                     color="grey lighten-4"
                                     title="nkonev"
                             >
