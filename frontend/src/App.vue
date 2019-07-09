@@ -19,7 +19,8 @@
 
         <v-toolbar app dark class="primary">
             <v-toolbar-side-icon @click.stop="drawer = !drawer" class="md-and-up"></v-toolbar-side-icon>
-            <v-btn color="success">New chat</v-btn>
+            <v-btn color="success"
+                   @click.stop="newChatDialog = true">New chat</v-btn>
             <v-toolbar-title v-text="'Chat App'"></v-toolbar-title>
             <v-spacer/>
             <v-toolbar-items class="hidden-sm-and-down">
@@ -40,8 +41,31 @@
             </v-toolbar-items>
         </v-toolbar>
         <v-content>
+            <v-layout row justify-center>
+                <v-dialog v-model="newChatDialog" persistent max-width="600px">
+                    <v-card>
+                        <v-card-title>
+                            <span class="headline">Create chat</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-container grid-list-md>
+                                <v-layout wrap>
+                                    <v-flex grow>
+                                        <v-text-field label="Chat name*" required></v-text-field>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                            <small>*indicates required field</small>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" outline @click="newChatDialog = false">Close</v-btn>
+                            <v-btn color="success" @click="newChatDialog = false">Save</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </v-layout>
             <v-flex>
-
                     <v-list two-line class="elevation-12">
                         <template v-for="(item, index) in items">
                             <v-list-tile :key="index" avatar ripple @click="">
@@ -66,8 +90,11 @@
                         </v-input>
                     </v-list>
             </v-flex>
+            <v-footer app>
+                <v-spacer></v-spacer>
+                <div class="mr-2">&copy; {{ new Date().getFullYear() }}</div>
+            </v-footer>
         </v-content>
-        <v-footer app>(C) Cool app</v-footer>
     </v-app>
 </template>
 
@@ -81,6 +108,7 @@
     export default {
         data(){
             return {
+                newChatDialog: false,
                 drawer: true,
                 items: [
                     { action: '15 min', headline: 'Brunch this weekend?', title: 'Ali Connors', subtitle: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?" },
