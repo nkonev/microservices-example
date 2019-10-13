@@ -123,3 +123,11 @@ docker cp $(docker ps --format {{.Names}} | grep keycloak):/tmp/export.json ./do
 
 # TODO
 1. HowerFly ?
+
+
+# Remove guice-cglib warning
+
+Add
+```
+--add-opens java.base/java.lang=ALL-UNNAMED
+```
