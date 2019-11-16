@@ -156,7 +156,7 @@ class KeycloakTest {
     @BeforeMethod
     fun beforeMethod() {
         // https://sites.google.com/a/chromium.org/chromedriver/
-        WebDriverManager.chromedriver().version("73.0.3683.68").setup();
+        WebDriverManager.chromedriver().version("77.0.3865.40").setup();
 
         driver = ChromeDriver()
 
