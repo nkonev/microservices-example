@@ -9,15 +9,24 @@ docker run -it --rm -v $PWD:/ws -w /ws znly/protoc:0.4.0 --go_out=plugins=grpc:u
 
 ## Building
 ```
+(cd frontend; npm i; npm run prod;)
+
 cd user-service
 go test ./...
-(cd frontend; npm i; npm run prod;)
 go get github.com/gobuffalo/packr/v2/packr2@v2.0.1
 packr2 build
 ```
 
 
 # Prepare localhost
+
+First of all set proper java 11
+```bash
+export JAVA_HOME=/usr/lib/jvm/jre-11
+java -version
+./mvnw clean package
+```
+
 Final architecture:
 
 ![Architecture](./.markdown/auth.png "Title")
